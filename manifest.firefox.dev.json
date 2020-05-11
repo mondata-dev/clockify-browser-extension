@@ -22,7 +22,7 @@
   },
   "applications": {
     "gecko": {
-      "id": "{1262fc44-5ec9-4088-a7a7-4cd42f3f548d}",
+      "id": "clockify-extension@mondata.de",
       "strict_min_version": "57.0a1"
     }
   },

@@ -10,6 +10,7 @@
     "clean.build.firefox.dev": "node tools/clean-build-script.js www/firefox.dev/",
     "compile.dev.chrome": "npm run clean.build.chrome.dev && compass compile -c config_chrome.dev.rb && webpack --env.TARGET=chrome.dev --watch",
     "compile.dev.firefox": "npm run clean.build.firefox.dev && compass compile -c config_firefox.dev.rb && webpack --env.TARGET=firefox.dev --watch",
+    "compile.prod.firefox": "NODE_ENV=production npm run clean.build.firefox.dev && compass compile -c config_firefox.dev.rb && webpack --env.TARGET=firefox.dev && cd www/firefox.dev && zip -r ../../clockify-mondata.firefox.xpi .",
     "copy.assets": "node tools/copy-assets-from-node-modules.js"
   },
   "author": "",
