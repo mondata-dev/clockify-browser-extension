@@ -108,10 +108,23 @@ var clockifyButton = {
     },
 
     createSmallButton: (description, project) => {
+        let timeEntryOptions;
+        if (typeof description === 'object') {
+            // mode: only one parameter that contains the options
+            timeEntryOptions = description;
+        } else {
+            // legacy mode: multiple parameters
+            timeEntryOptions = {
+                description: description || "",
+                projectName: project || null,
+                taskName: null,
+                billable: null
+            };
+        }
+
         const button = document.createElement('a');
-        let title = invokeIfFunction(description);
+        let title = invokeIfFunction(timeEntryOptions.description);
         let active = clockifyButton.inProgressDescription === title;
-        const projectName = !!project ? project : null;
         button.classList.add('small');
         setButtonProperties(button, title, active);
 
@@ -132,8 +145,7 @@ var clockifyButton = {
             } else {
                 aBrowser.runtime.sendMessage({
                     eventName: 'startWithDescription',
-                    description: title,
-                    project: projectName
+                    timeEntryOptions: timeEntryOptions
                 }, (response) => {
                     if (response.status === 400) {
                         alert("Can't end entry without project/task/description or tags.Please edit your time entry.");
@@ -216,52 +228,9 @@ var clockifyButton = {
             return false;
         };
 
-        // setButtonProperties(button, title, active);
-    
-        // button.addEventListener('click', (e) => {
-        //     e.stopPropagation();
-        // });
-    
-        // button.onclick = () => {
-        //     title = invokeIfFunction(timeEntryOptions.description);
-        //     if (title && title === clockifyButton.inProgressDescription) {
-        //         aBrowser.runtime.sendMessage({eventName: 'endInProgress'}, (response) => {
-        //             if (response.status === 400) {
-        //                 alert("Can't end entry without project/task/description or tags.Please edit your time entry.");
-        //             } else {
-        //                 clockifyButton.inProgressDescription = null;
-        //                 active = false;
-        //                 setButtonProperties(button, title, active);
-        //                 aBrowser.storage.sync.set({
-        //                     timeEntryInProgress: null
-        //                 });
-        //             }
-        //         });
-        //     } else {
-        //         aBrowser.runtime.sendMessage({
-        //             eventName: 'startWithDescription',
-        //             timeEntryOptions: timeEntryOptions
-        //         }, (response) => {
-        //             if (response.status === 400) {
-        //                 alert("Can't end entry without project/task/description or tags.Please edit your time entry.");
-        //             } else {
-        //                 active = true;
-        //                 setButtonProperties(button, title, active);
-        //                 clockifyButton.inProgressDescription = title;
-        //                 aBrowser.storage.sync.set({
-        //                     timeEntryInProgress: response.data
-        //                 });
-        //             }
-        //         });
-        //     }
-    
-        // };
-        // clockifyButton.links.push(button);
-
         return form;
     }
 };
-
 
 function fetchEntryInProgress(callback) {
     aBrowser.runtime.sendMessage({eventName: "getEntryInProgress"}, (response) => {
