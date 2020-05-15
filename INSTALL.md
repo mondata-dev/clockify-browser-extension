@@ -14,6 +14,7 @@
 ## Firefox
 
 1. Go to `about:addons`
-2. ???
-3. The extension should be installed
-4. After login, you might want to enable "Integrations can create projects/task/tags in the extension's settings.
+2. Select install extension from file in the context menu of the little gear in the top right
+3. Allow the permissions and select install in the popups
+4. The extension should be installed
+5. After login, you might want to enable "Integrations can create projects/task/tags in the extension's settings.
